@@ -44,7 +44,7 @@ export default function Profile() {
   )
 
   const getScoreBadge = (pct) => {
-    if (pct === 100) return { label: 'Sempurna 🌟', color: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
+    if (pct === 100) return { label: 'Perfect 🌟', color: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
     if (pct >= 80) return { label: 'Sangat Baik 🔥', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
     if (pct >= 60) return { label: 'Cukup Baik 👍', color: 'bg-blue-50 text-blue-700 border-blue-200' }
     return { label: 'Perlu Latihan 💪', color: 'bg-rose-50 text-rose-700 border-rose-200' }
@@ -53,7 +53,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-gray-50/50">
       <Navbar />
-      
+
       {/* Decorative top background gradient */}
       <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent pointer-events-none z-0" />
 
@@ -66,7 +66,7 @@ export default function Profile() {
           <div className="absolute bottom-0 left-0 h-96 w-96 -translate-x-1/4 translate-y-1/4 rounded-full bg-teal-500/10 blur-[80px]" />
 
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-            
+
             {/* Profile Info */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
               <div className="relative">
@@ -133,27 +133,27 @@ export default function Profile() {
         {/* Stats Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
           {[
-            { 
-              label: 'Total Bermain', 
-              value: totalGames, 
+            {
+              label: 'Total Bermain',
+              value: totalGames,
               desc: 'Sesi kuis diselesaikan',
-              icon: <Target size={24} />, 
+              icon: <Target size={24} />,
               color: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
               glow: 'group-hover:bg-blue-500/20'
             },
-            { 
-              label: 'Rata-rata Skor', 
-              value: `${avgScore}%`, 
+            {
+              label: 'Rata-rata Skor',
+              value: `${avgScore}%`,
               desc: 'Performa rata-rata game',
-              icon: <TrendingUp size={24} />, 
+              icon: <TrendingUp size={24} />,
               color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
               glow: 'group-hover:bg-emerald-500/20'
             },
-            { 
-              label: 'Skor Terbaik', 
-              value: `${bestScore}%`, 
+            {
+              label: 'Skor Terbaik',
+              value: `${bestScore}%`,
               desc: 'Rekor nilai tertinggi kamu',
-              icon: <Trophy size={24} />, 
+              icon: <Trophy size={24} />,
               color: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20',
               glow: 'group-hover:bg-yellow-500/20'
             },
@@ -195,8 +195,8 @@ export default function Profile() {
               <p className="text-gray-400 text-sm max-w-sm mx-auto mb-6">
                 Kamu belum pernah mengerjakan kuis. Ayo mulai tantangan pertamamu sekarang!
               </p>
-              <button 
-                onClick={handlePlayAgain} 
+              <button
+                onClick={handlePlayAgain}
                 className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-bold text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition-all hover:-translate-y-0.5"
               >
                 <Play size={14} className="fill-white" />

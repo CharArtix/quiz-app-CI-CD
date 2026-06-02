@@ -5,7 +5,7 @@ import { BrainCircuit, Zap, AlertCircle } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../services/authService";
 import useDocumentTitle from "../hooks/useDocumentTitle";
-
+// test
 export default function Login() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [googleError, setGoogleError] = useState("");
@@ -53,7 +53,7 @@ export default function Login() {
           </div>
 
           <h1 className="font-sans text-5xl font-extrabold leading-[1.1] tracking-tight xl:text-7xl">
-            Asah <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-300 to-teal-300">Logika</span> & <br/>
+            Asah <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-300 to-teal-300">Logika</span> & <br />
             Wawasanmu.
           </h1>
 
