@@ -31,8 +31,9 @@ jobs:
           app_location: "./apps/frontend" 
           api_location: "" 
           output_location: "dist" 
-        env: # <--- TAMBAHKAN DI SINI
+        env: 
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }} # <--- TAMBAHKAN BARIS INI
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
