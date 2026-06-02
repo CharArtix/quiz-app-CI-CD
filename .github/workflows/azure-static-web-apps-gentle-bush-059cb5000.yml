@@ -19,6 +19,16 @@ jobs:
         with:
           submodules: true
           lfs: false
+          
+      # 4. Melakukan instalasi dan build mandiri dengan pnpm
+      - name: Install dependencies and Build
+        env: # <--- TAMBAHKAN INI
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }} # <--- TAMBAHKAN INI
+        run: |
+          pnpm install
+          pnpm run build 
+        working-directory: ./apps
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
