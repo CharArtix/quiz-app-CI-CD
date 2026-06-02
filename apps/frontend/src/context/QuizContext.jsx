@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
-import { getQuestions } from "../services/api"; 
+import { getQuestions } from "../services/api";
+import { submitScore } from "../services/scoreService";
 import { QUIZ_DURATION } from "../utils/constants";
 
 // Context untuk state management quiz
@@ -183,12 +184,30 @@ export const QuizProvider = ({ children }) => {
     });
   };
 
-  // Login user
-  const login = (name) => {
-    const userData = { name };
+  // Login user — menerima object { name, email?, picture?, googleId? }
+  // atau string nama saja (backward compatible dengan form manual)
+  const login = (userDataOrName) => {
+    const userData = typeof userDataOrName === 'string'
+      ? { name: userDataOrName }
+      : userDataOrName;
     setUser(userData);
     localStorage.setItem("quizUser", JSON.stringify(userData));
   };
+
+  // Simpan skor ke backend + riwayat lokal
+  const saveScore = useCallback(async (scoreData) => {
+    // Simpan ke localStorage history
+    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+    history.unshift({ ...scoreData, playedAt: new Date().toISOString() });
+    localStorage.setItem('quizHistory', JSON.stringify(history.slice(0, 50))); // max 50
+
+    // Kirim ke backend (tidak blokir jika gagal)
+    try {
+      await submitScore(scoreData);
+    } catch (err) {
+      console.warn('Gagal submit skor ke backend:', err.message);
+    }
+  }, []);
 
   // Logout user dan reset state
   const logout = () => {
@@ -210,7 +229,7 @@ export const QuizProvider = ({ children }) => {
 
   // Provide semua nilai ke context
   return (
-    <QuizContext.Provider value={{ user, quizState, loading, error, login, logout, startQuiz, answerQuestion }}>
+    <QuizContext.Provider value={{ user, quizState, loading, error, login, logout, startQuiz, answerQuestion, saveScore }}>
       {children}
     </QuizContext.Provider>
   );
