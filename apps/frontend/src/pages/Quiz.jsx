@@ -17,10 +17,6 @@ export default function Quiz() {
   useDocumentTitle(`Soal ${currentQNum} dari ${totalQ} | DOT Quiz`);
 
   useEffect(() => {
-    if (!user) navigate("/");
-  }, [user, navigate]);
-
-  useEffect(() => {
     if (user && quizState.status === 'idle') {
       startQuiz();
     }
@@ -63,7 +59,7 @@ export default function Quiz() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 pt-24 md:pt-28">
-      {/* Header dengan nama user dan timer */}
+      {/* Header game: fixed, dengan nama user dan timer */}
       <div className="fixed top-0 left-0 right-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="container mx-auto px-4 max-w-4xl h-16 md:h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -85,7 +81,7 @@ export default function Quiz() {
         </div>
 
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-100">
-          <div 
+          <div
             className="h-full bg-linear-to-r from-emerald-400 to-emerald-600 transition-all duration-500 ease-out"
             style={{ width: `${progressPercent}%` }}
           />
