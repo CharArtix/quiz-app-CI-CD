@@ -27,3 +27,30 @@ export const getQuestions = async () => {
     throw error;
   }
 };
+
+// API endpoint Custom Backend
+const BACKEND_URL = "http://localhost:5000/api/scores";
+
+export const saveUserScore = async (username, score, totalQuestions) => {
+  try {
+    const response = await axios.post(BACKEND_URL, {
+      username,
+      score,
+      totalQuestions,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to save score:", error);
+    throw error;
+  }
+};
+
+export const getLeaderboard = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/leaderboard`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to get leaderboard:", error);
+    throw error;
+  }
+};

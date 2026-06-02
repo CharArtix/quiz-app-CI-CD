@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Quiz from './pages/Quiz';
 import Result from './pages/Result';
+import Leaderboard from './pages/Leaderboard';
 
 // Komponen utama aplikasi dengan routing
 function App() {
@@ -17,6 +18,9 @@ function App() {
           
           {/* Halaman hasil akhir */}
           <Route path="/result" element={<Result />} />
+
+          {/* Halaman leaderboard */}
+          <Route path="/leaderboard" element={<Leaderboard />} />
           
           {/* Redirect ke login jika rute tidak ada */}
           <Route path="*" element={<Navigate to="/" replace />} />

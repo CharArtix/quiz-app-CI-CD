@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuiz } from "../context/QuizContext";
+import { saveUserScore } from "../services/api";
 import { 
   CheckCircle2, 
   XCircle, 
@@ -31,10 +32,24 @@ export default function Result() {
 
   useDocumentTitle(`Hasil: ${scorePercentage}% | DOT Quiz`);
 
+  const scoreSavedRef = useRef(false);
+
   useEffect(() => {
-    if (!user) navigate("/");
-    else if (!quizState.isFinished) navigate("/quiz");
-  }, [user, quizState.isFinished, navigate]);
+    if (!user) {
+      navigate("/");
+      return;
+    }
+    if (!quizState.isFinished) {
+      navigate("/quiz");
+      return;
+    }
+
+    if (quizState.isFinished && !scoreSavedRef.current) {
+      scoreSavedRef.current = true;
+      saveUserScore(user.name, correctAnswers, totalQuestions)
+        .catch(err => console.error("Failed to save score:", err));
+    }
+  }, [user, quizState.isFinished, navigate, correctAnswers, totalQuestions]);
 
   // Tentukan warna, icon, dan teks berdasarkan skor
   const getResultUI = () => {
@@ -156,17 +171,25 @@ export default function Result() {
           <div className="flex flex-col gap-3 sm:flex-row md:gap-4">
             <button
               onClick={handlePlayAgain}
-              className="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 py-4 px-6 font-bold text-white shadow-xl shadow-emerald-600/20 transition-all hover:bg-emerald-700 hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+              className="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 px-4 font-bold text-white shadow-xl shadow-emerald-600/20 transition-all hover:bg-emerald-700 hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
-              <RefreshCw size={20} className="transition-transform group-hover:rotate-180" />
+              <RefreshCw size={18} className="transition-transform group-hover:rotate-180" />
               <span>Main Lagi</span>
             </button>
             
             <button
-              onClick={handleLogout}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-gray-100 bg-white py-4 px-6 font-bold text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600 active:scale-[0.98]"
+              onClick={() => navigate("/leaderboard")}
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 px-4 font-bold text-white shadow-xl shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
-              <LogOut size={20} />
+              <Trophy size={18} />
+              <span>Leaderboard</span>
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-gray-100 bg-white py-3 px-4 font-bold text-gray-500 transition-all hover:border-rose-100 hover:bg-rose-50 hover:text-rose-600 active:scale-[0.98]"
+            >
+              <LogOut size={18} />
               <span>Selesai</span>
             </button>
           </div>
