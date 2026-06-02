@@ -1,15 +1,47 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import mongoose from 'mongoose'
 import authRouter from './routes/auth.js'
 import scoresRouter from './routes/scores.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Connect to MongoDB Atlas
+const MONGODB_URI = process.env.MONGODB_URI
+if (!MONGODB_URI) {
+  console.error('❌ MONGODB_URI is not defined in .env file!')
+  process.exit(1)
+}
+
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log('✅ Connected to MongoDB Atlas'))
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err)
+    process.exit(1)
+  })
+
 // Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean);
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Izinkan request tanpa origin (seperti mobile apps, curl, postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+    // Jika dideploy dan butuh fleksibilitas cepat, izinkan semua sub-domain vercel
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    return callback(new Error('Blocked by CORS'));
+  },
   credentials: true,
 }))
 app.use(express.json())
@@ -41,3 +73,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`✅ Backend running at http://localhost:${PORT}`)
 })
+
+export default app

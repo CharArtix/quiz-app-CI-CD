@@ -1,53 +1,67 @@
-/**
- * In-memory score store
- * Data akan reset ketika server restart.
- * Bisa diupgrade ke database (SQLite/MongoDB) nanti.
- */
+import mongoose from 'mongoose'
 
-/** @type {Array<{playerId, playerName, playerPicture, score, total, percentage, playedAt}>} */
-const scores = []
+// Skema untuk Mongoose Score
+const scoreSchema = new mongoose.Schema({
+  playerId: { type: String, required: true },
+  playerName: { type: String, required: true },
+  playerPicture: { type: String, default: null },
+  score: { type: Number, required: true },
+  total: { type: Number, required: true },
+  percentage: { type: Number, required: true },
+  playedAt: { type: Date, default: Date.now }
+})
+
+const Score = mongoose.model('Score', scoreSchema)
 
 /**
- * Tambah skor baru. Jika player sudah pernah main,
- * tetap simpan semua riwayat (boleh main berkali-kali).
+ * Tambah skor baru ke MongoDB.
  */
-export function addScore({ playerId, playerName, playerPicture, score, total, percentage }) {
-  scores.push({
+export async function addScore({ playerId, playerName, playerPicture, score, total, percentage }) {
+  const newScore = new Score({
     playerId: playerId || playerName,
     playerName,
     playerPicture: playerPicture || null,
     score,
     total,
-    percentage,
-    playedAt: new Date().toISOString(),
+    percentage
   })
+  return await newScore.save()
 }
 
 /**
  * Ambil top scores — diurutkan berdasarkan skor terbaik per player.
  * Hanya tampilkan 1 skor terbaik per player di leaderboard.
  */
-export function getTopScores(limit = 20) {
-  // Ambil skor terbaik per player
-  const bestPerPlayer = new Map()
-
-  for (const entry of scores) {
-    const existing = bestPerPlayer.get(entry.playerId)
-    if (!existing || entry.percentage > existing.percentage) {
-      bestPerPlayer.set(entry.playerId, entry)
+export async function getTopScores(limit = 20) {
+  return await Score.aggregate([
+    {
+      $sort: { percentage: -1, playedAt: 1 }
+    },
+    {
+      $group: {
+        _id: '$playerId',
+        playerId: { $first: '$playerId' },
+        playerName: { $first: '$playerName' },
+        playerPicture: { $first: '$playerPicture' },
+        score: { $first: '$score' },
+        total: { $first: '$total' },
+        percentage: { $first: '$percentage' },
+        playedAt: { $first: '$playedAt' }
+      }
+    },
+    {
+      $sort: { percentage: -1, playedAt: 1 }
+    },
+    {
+      $limit: limit
     }
-  }
-
-  return [...bestPerPlayer.values()]
-    .sort((a, b) => b.percentage - a.percentage || new Date(a.playedAt) - new Date(b.playedAt))
-    .slice(0, limit)
+  ])
 }
 
 /**
  * Ambil semua riwayat skor seorang player
  */
-export function getPlayerHistory(playerId) {
-  return scores
-    .filter((s) => s.playerId === playerId)
-    .sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt))
+export async function getPlayerHistory(playerId) {
+  return await Score.find({ playerId })
+    .sort({ playedAt: -1 })
 }
