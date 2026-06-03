@@ -40,4 +40,12 @@ router.post('/google', async (req, res) => {
   }
 })
 
+/**
+ * GET /api/auth/test
+ * Endpoint for testing/debugging auth route
+ */
+router.get('/test', (req, res) => {
+  return res.json({ message: 'Auth route is working correctly' })
+})
+
 export default router
