@@ -28,7 +28,7 @@ export default function Login() {
       navigate("/profile");
     } catch (err) {
       console.error("Google login error:", err);
-      setGoogleError("Login dengan Google gagal. Pastikan backend sudah berjalan.");
+      setGoogleError("Login dengan Google gagal. Token tidak valid.");
     } finally {
       setGoogleLoading(false);
     }
