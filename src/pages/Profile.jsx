@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useQuiz } from '../context/QuizContext'
 import Navbar from '../components/Navbar'
@@ -11,10 +12,36 @@ export default function Profile() {
   const { user, startQuiz } = useQuiz()
   const navigate = useNavigate()
 
+  useEffect(() => {
+  const fetchHistory = async () => {
+    try {
+      if (!user?.googleId) {
+        setLoadingHistory(false)
+        return
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/scores/history/${user.googleId}`
+      )
+
+      const data = await response.json()
+
+      setHistory(data.history || [])
+    } catch (err) {
+      console.error('Failed to load history:', err)
+    } finally {
+      setLoadingHistory(false)
+    }
+  }
+
+  fetchHistory()
+}, [user])
+
   useDocumentTitle(`Profil ${user?.name || ''} | DOT Quiz`)
 
-  // Ambil riwayat kuis dari localStorage
-  const history = JSON.parse(localStorage.getItem('quizHistory') || '[]')
+  // Ambil riwayat kuis 
+  const [history, setHistory] = useState([])
+  const [loadingHistory, setLoadingHistory] = useState(true)
 
   // Hitung statistik
   const totalGames = history.length
@@ -186,7 +213,11 @@ export default function Profile() {
             </Link>
           </div>
 
-          {history.length === 0 ? (
+          {loadingHistory ? (
+  <div className="py-12 text-center">
+    Memuat riwayat permainan...
+  </div>
+) : history.length === 0 ? (
             <div className="py-20 text-center px-4">
               <div className="mx-auto w-16 h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-4">
                 <Target size={30} className="text-gray-300" />
