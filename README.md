@@ -1,25 +1,19 @@
-# DOT Quiz App 🧠
+# DOT Quiz App 🧠 (Frontend Client)
 
-Aplikasi kuis interaktif berbasis **React 19** dan **Vite**, dikembangkan sebagai solusi *Technical Challenge*. Aplikasi ini mengintegrasikan API OpenTDB, manajemen state global, dan mekanisme persistensi data yang optimal.
+Aplikasi kuis interaktif berbasis **React 19** dan **Vite**, dikembangkan sebagai solusi *Technical Challenge*. Repositori ini berisi kode **Frontend** yang telah distrukturkan secara mandiri (standalone) di tingkat root dan terintegrasi secara penuh dengan API backend eksternal yang dideploy ke Azure.
+
+---
 
 ## ✨ Fitur Utama
 
-Sesuai dengan kriteria *requirements*:
+- 🔑 **Google OAuth Login Only:** Sistem autentikasi aman menggunakan Google Login Button tanpa opsi masuk tamu (Guest).
+- 🌐 **Deployed Backend Integration:** Terhubung langsung ke API server eksternal untuk verifikasi akun dan sinkronisasi skor.
+- 🏆 **Global Leaderboard:** Menampilkan peringkat 20 pemain teratas secara real-time yang bersumber dari database MongoDB Atlas via backend server.
+- ⏱️ **Global Timer:** Timer hitung mundur terpusat untuk kuis (default: 60 detik). Kuis otomatis selesai dan tersimpan jika waktu habis.
+- 💾 **Resume Progress Mechanism:** Menggunakan `localStorage` untuk menyimpan state kuis (posisi soal, jawaban, sisa waktu). Jika browser direfresh atau ditutup secara tidak sengaja, progres kuis dapat dilanjutkan.
+- 🎨 **Premium Responsive UI:** Menggunakan Tailwind CSS v4 untuk tampilan yang estetik, modern, dan sangat responsif (Mobile-First).
 
-- ✅ **User Login:** Sistem input nama sederhana dengan proteksi rute (Route Protection).
-- ✅ **Dynamic Data:** Mengambil soal secara *real-time* dari [OpenTDB API](https://opentdb.com/).
-- ✅ **Global Timer:** Timer hitung mundur (default: 60 detik). Kuis otomatis selesai jika waktu habis.
-- ✅ **Smart Navigation:** Satu soal per halaman. Pindah otomatis setelah memilih jawaban.
-- ✅ **Result Analysis:** Menampilkan skor, jumlah benar, salah, dan total dijawab.
-- ✅ **Responsive UI:** Tampilan modern dan responsif (Mobile First) menggunakan Tailwind CSS v4.
-
-### 🌟 Technical Highlights
-
-- **Optimized Resume Mechanism:**
-  Menggunakan `localStorage` untuk menyimpan progres. User bisa menutup browser atau me-refresh halaman tanpa kehilangan progres (posisi soal, jawaban, dan sisa waktu).
-- **Performance Optimization:**
-  - **Anti-Thrashing:** State timer (`timeLeft`) *tidak* disimpan ke LocalStorage setiap detik untuk menghindari operasi *write* yang berlebihan.
-  - **Drift-Correction:** Menggunakan logika `Date.now()` dan `endTime` timestamp untuk menghitung sisa waktu, sehingga timer tetap akurat meskipun tab tidak aktif.
+---
 
 ## 🛠️ Tech Stack
 
@@ -28,37 +22,117 @@ Sesuai dengan kriteria *requirements*:
 - **Routing:** [React Router DOM v7](https://reactrouter.com/)
 - **HTTP Client:** [Axios](https://axios-http.com/)
 - **Icons:** [Lucide React](https://lucide.dev/)
-- **Package Manager:** pnpm
+- **Package Manager:** npm
 
-## 🚀 Cara Menjalankan
+---
 
-Pastikan Node.js sudah terinstal di komputer Anda.
+## 🚀 Panduan Memulai (Getting Started)
 
-1. **Clone Repository**
-   ```bash
-   git clone [https://github.com/username-anda/dot-quiz-app.git](https://github.com/username-anda/dot-quiz-app.git)
-   cd dot-quiz-app
-   ```
-2. **Install Dependencies Proyek ini menggunakan (`pnpm`).**
-   ```bash
-   pnpm install
-
-   # atau jika menggunakan npm:
-   npm install
-   ```
-3. **Jalankan Development Server**
-   ```bash
-   pnpm run dev
-   ```
-   Buka (`http://localhost:5173`) di browser.
-
-## 📂 Struktur Proyek
+### 1. Clone Repository
+Langkah pertama adalah menduplikasi repositori ini ke komputer lokal Anda:
+```bash
+git clone https://github.com/firmansyahadip25/quiz-app-frontend.git
+cd quiz-app-frontend
 ```
-src/
-├── components/     # Komponen UI (QuestionCard, dll)
-├── context/        # Global State (QuizContext) & Logic Timer
-├── hooks/          # Custom Hooks (useDocumentTitle)
-├── pages/          # Halaman Utama (Login, Quiz, Result)
-├── services/       # Konfigurasi API (Axios)
-└── utils/          # Konstanta & Helper functions
+
+### 2. Menyambung & Mengatur Remote Repository
+Jika Anda ingin menyambungkan folder lokal ini ke repositori Git Anda sendiri (misalnya di GitHub atau GitLab):
+
+- **Periksa remote repository saat ini:**
+  ```bash
+  git remote -v
+  ```
+- **Mengubah alamat remote repository (jika sudah ada):**
+  ```bash
+  git remote set-url origin https://github.com/firmansyahadip25/quiz-app-frontend.git
+  ```
+- **Menambahkan remote repository baru (jika belum ada `origin`):**
+  ```bash
+  git remote add origin https://github.com/firmansyahadip25/quiz-app-frontend.git
+  ```
+- **Lakukan push pertama kali ke branch utama:**
+  ```bash
+  git push -u origin main
+  ```
+
+---
+
+## ⚙️ Konfigurasi Environment Variable (`.env`)
+
+Sebelum menjalankan aplikasi, Anda wajib membuat file `.env` di root direktori untuk menyimpan konfigurasi Google OAuth dan API backend.
+
+1. Duplikat file `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Buka file `.env` dan sesuaikan nilainya:
+   ```ini
+   # Client ID Google OAuth Anda untuk autentikasi login
+   VITE_GOOGLE_CLIENT_ID=1032097689770-gmu91bbb2l1ddv3g1qjtia69pfvorv2g.apps.googleusercontent.com
+
+   # URL API backend Anda yang sudah dideploy di Azure
+   VITE_API_URL=https://quiz-app-backend-bzf9ajbvb8hghad0.malaysiawest-01.azurewebsites.net
+   ```
+
+---
+
+## 💻 Pengembangan & Perintah (Commands)
+
+Pastikan Node.js (v18 atau lebih baru) sudah terinstal. Jalankan perintah berikut di terminal:
+
+### 📥 Install Dependensi
+Mengunduh dan menginstal semua paket pustaka yang diperlukan:
+```bash
+npm install
+```
+
+### 🛠️ Mode Pengembangan (Local Dev Server)
+Menjalankan server lokal untuk proses pengembangan dengan fitur Hot Module Replacement (HMR):
+```bash
+npm run dev
+```
+Buka [http://localhost:5173](http://localhost:5173) pada browser Anda.
+
+### 📦 Build Produksi
+Mengompilasi dan mengoptimalkan kode frontend menjadi file statis siap dideploy (hasil output di folder `/dist`):
+```bash
+npm run build
+```
+
+### 👁️ Preview Build Produksi
+Menjalankan server lokal untuk menguji hasil build produksi sebelum di-deploy:
+```bash
+npm run preview
+```
+
+### 🚨 Linter (Pengecekan Kode)
+Menjalankan ESLint untuk mengecek kerapian dan standarisasi penulisan kode:
+```bash
+npm run lint
+```
+
+---
+
+## 📂 Struktur Folder Proyek
+
+Setelah struktur monorepo disederhanakan, berikut adalah bagan direktori utama di tingkat root:
+```
+quiz-app-frontend/
+├── public/             # File statis publik (favicon, dll)
+├── src/
+│   ├── components/     # Komponen UI reusable (Navbar, QuestionCard, dll)
+│   ├── context/        # State Management Global & Logic Timer (QuizContext)
+│   ├── hooks/          # Custom React Hooks (useDocumentTitle)
+│   ├── pages/          # Halaman Utama (Login, Profile, Quiz, Result, Scoreboard)
+│   ├── services/       # Komunikasi API via Axios (api.js, authService.js, scoreService.js)
+│   ├── utils/          # Konstanta global dan helper functions
+│   ├── App.jsx         # Komponen rute dan layout utama
+│   ├── index.css       # File style utama (Tailwind v4)
+│   └── main.jsx        # Entry point aplikasi React
+├── .env                # File konfigurasi lokal (diabaikan oleh git)
+├── .env.example        # Template konfigurasi environment
+├── eslint.config.js    # Konfigurasi ESLint
+├── index.html          # File HTML utama
+├── package.json        # Dependensi dan script perintah npm
+└── vite.config.js      # Konfigurasi bundler Vite
 ```
