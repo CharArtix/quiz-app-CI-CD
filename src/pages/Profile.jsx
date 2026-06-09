@@ -12,36 +12,36 @@ export default function Profile() {
   const { user, startQuiz } = useQuiz()
   const navigate = useNavigate()
 
-  useEffect(() => {
-  const fetchHistory = async () => {
-    try {
-      if (!user?.googleId) {
-        setLoadingHistory(false)
-        return
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/scores/history/${user.googleId}`
-      )
-
-      const data = await response.json()
-
-      setHistory(data.history || [])
-    } catch (err) {
-      console.error('Failed to load history:', err)
-    } finally {
-      setLoadingHistory(false)
-    }
-  }
-
-  fetchHistory()
-}, [user])
-
-  useDocumentTitle(`Profil ${user?.name || ''} | DOT Quiz`)
-
   // Ambil riwayat kuis 
   const [history, setHistory] = useState([])
   const [loadingHistory, setLoadingHistory] = useState(true)
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        if (!user?.googleId) {
+          setLoadingHistory(false)
+          return
+        }
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/scores/history/${user.googleId}`
+        )
+
+        const data = await response.json()
+
+        setHistory(data.history || [])
+      } catch (err) {
+        console.error('Failed to load history:', err)
+      } finally {
+        setLoadingHistory(false)
+      }
+    }
+
+    fetchHistory()
+  }, [user])
+
+  useDocumentTitle(`Profil ${user?.name || ''} | DOT Quiz`)
 
   // Hitung statistik
   const totalGames = history.length

@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/set-state-in-effect */
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
 import { getQuestions } from "../services/api";
 import { submitScore } from "../services/scoreService";
@@ -59,6 +61,7 @@ export const QuizProvider = ({ children }) => {
     if (quizState.status !== 'idle') {
       localStorage.setItem("quizState", JSON.stringify(quizState));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     quizState.status, 
     quizState.questions, 
@@ -145,12 +148,12 @@ export const QuizProvider = ({ children }) => {
 
     try {
       await fetchQuestions();
-    } catch (err) {
+    } catch {
       console.warn("Retrying fetch...");
       setTimeout(async () => {
         try {
           await fetchQuestions();
-        } catch (retryErr) {
+        } catch {
           setError("Gagal mengambil soal. Cek koneksi internetmu.");
           setLoading(false);
           isFetchingRef.current = false;

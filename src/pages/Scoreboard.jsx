@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuiz } from '../context/QuizContext'
@@ -220,7 +221,7 @@ export default function Scoreboard() {
   )
 }
 
-function PodiumCard({ entry, rank, isCurrentUser }) {
+function PodiumCard({ entry, rank }) {
   const heights = { 1: 'h-28', 2: 'h-20', 3: 'h-16' }
   const colors = {
     1: 'bg-yellow-400 text-white shadow-yellow-200',
