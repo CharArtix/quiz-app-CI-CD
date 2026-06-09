@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useQuiz } from "../context/QuizContext";
 import Navbar from "../components/Navbar";
@@ -12,6 +12,8 @@ import {
   Frown,
   BarChart3,
   LayoutDashboard,
+  Share2,
+  Check,
 } from "lucide-react";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
@@ -19,6 +21,7 @@ export default function Result() {
   const { user, quizState, startQuiz, saveScore } = useQuiz();
   const navigate = useNavigate();
   const scoreSubmittedRef = useRef(false);
+  const [copied, setCopied] = useState(false);
 
   const totalQuestions = quizState.questions.length;
   const totalAnswered = quizState.answers.length;
@@ -27,6 +30,17 @@ export default function Result() {
   const scorePercentage = totalQuestions > 0
     ? Math.round((correctAnswers / totalQuestions) * 100)
     : 0;
+
+  const handleShare = async () => {
+    const textToCopy = `I scored ${scorePercentage} on Quiz App!`;
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Gagal menyalin teks: ", err);
+    }
+  };
 
   useDocumentTitle(`Hasil: ${scorePercentage}% | DOT Quiz`);
 
@@ -151,6 +165,18 @@ export default function Result() {
               >
                 <RefreshCw size={20} className="transition-transform group-hover:rotate-180" />
                 <span>Main Lagi</span>
+              </button>
+
+              <button
+                onClick={handleShare}
+                className={`flex flex-1 items-center justify-center gap-2 rounded-xl border-2 py-4 px-6 font-bold transition-all active:scale-[0.98] ${
+                  copied
+                    ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300 shadow-xl shadow-emerald-600/10"
+                    : "border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:border-blue-300 shadow-xl shadow-blue-600/10"
+                }`}
+              >
+                {copied ? <Check size={20} /> : <Share2 size={20} />}
+                <span>{copied ? "Tersalin!" : "Share Result"}</span>
               </button>
 
               <Link
