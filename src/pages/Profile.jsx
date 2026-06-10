@@ -154,7 +154,7 @@ export default function Profile() {
         {/* Stats Section Title */}
         <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
           <TrendingUp size={18} className="text-emerald-600" />
-          Statistik Permainan
+          Statistik Permainann
         </h2>
 
         {/* Stats Row */}
@@ -214,10 +214,10 @@ export default function Profile() {
           </div>
 
           {loadingHistory ? (
-  <div className="py-12 text-center">
-    Memuat riwayat permainan...
-  </div>
-) : history.length === 0 ? (
+            <div className="py-12 text-center">
+              Memuat riwayat permainan...
+            </div>
+          ) : history.length === 0 ? (
             <div className="py-20 text-center px-4">
               <div className="mx-auto w-16 h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-4">
                 <Target size={30} className="text-gray-300" />
