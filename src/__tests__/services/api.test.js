@@ -5,8 +5,15 @@ import { TOTAL_QUESTIONS } from "../../utils/constants";
 jest.mock("axios");
 
 describe("API Service - getQuestions", () => {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
+    consoleSpy.mockRestore();
   });
 
   it("harus mengembalikan daftar pertanyaan saat request sukses", async () => {
