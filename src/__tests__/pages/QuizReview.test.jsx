@@ -150,4 +150,30 @@ describe('QuizReview Page', () => {
     fireEvent.click(screen.getByText('Scoreboard'));
     expect(mockNavigate).toHaveBeenCalledWith('/scoreboard');
   });
+
+  it('harus menggunakan reviewData dari router state jika tersedia, dan tombol kembali mengarah ke /profile', () => {
+    const customReviewData = {
+      score: 1,
+      questions: [
+        { question: 'Custom Q1', correct_answer: 'A', options: ['A', 'B'] },
+      ],
+      answers: [
+        { question: 'Custom Q1', selected: 'B', correct: 'A', isCorrect: false },
+      ],
+    };
+
+    render(
+      <MemoryRouter initialEntries={[{ pathname: '/review', state: { reviewData: customReviewData, fromProfile: true } }]}>
+        <QuizReview />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Custom Q1')).toBeInTheDocument();
+
+    const backBtn = screen.getByText('Kembali ke Profil');
+    expect(backBtn).toBeInTheDocument();
+
+    fireEvent.click(backBtn);
+    expect(mockNavigate).toHaveBeenCalledWith('/profile');
+  });
 });
