@@ -129,7 +129,6 @@ quiz-app-frontend/
 │   ├── App.jsx         # Komponen rute dan layout utama
 │   ├── index.css       # File style utama (Tailwind v4)
 │   └── main.jsx        # Entry point aplikasi React
-├── .env                # File konfigurasi lokal (diabaikan oleh git)
 ├── .env.example        # Template konfigurasi environment
 ├── eslint.config.js    # Konfigurasi ESLint
 ├── index.html          # File HTML utama
