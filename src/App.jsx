@@ -10,7 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-100 text-gray-800 font-sans">
+      <div className="min-h-screen bg-red-100 text-gray-800 font-sans">
         <Routes>
           {/* Halaman login — tidak perlu auth */}
           <Route path="/" element={<Login />} />
