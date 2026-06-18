@@ -19,3 +19,8 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { TextEncoder, TextDecoder } = require('util');
 globalThis.TextEncoder = TextEncoder;
 globalThis.TextDecoder = TextDecoder;
+
+// process.env vars untuk babel-plugin-transform-import-meta
+// Plugin ini mengkonversi import.meta.env.X → process.env.X saat compile
+process.env.VITE_API_URL = 'http://localhost:3000';
+process.env.VITE_GOOGLE_CLIENT_ID = 'test-google-client-id';

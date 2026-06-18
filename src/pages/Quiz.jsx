@@ -28,16 +28,6 @@ export default function Quiz() {
     }
   }, [quizState.isFinished, loading, navigate]);
 
-  // Tampilkan loading saat fetch pertanyaan
-  if (loading || !totalQ) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
-        <Loader2 size={48} className="animate-spin text-emerald-600 mb-4" />
-        <p className="text-gray-500 font-medium animate-pulse">Menyiapkan pertanyaan...</p>
-      </div>
-    );
-  }
-
   // Tampilkan error jika API gagal
   if (error) {
     return (
@@ -46,10 +36,20 @@ export default function Quiz() {
           <AlertCircle size={40} className="mx-auto text-red-500 mb-4" />
           <h3 className="text-lg font-bold text-gray-900 mb-2">Terjadi Kesalahan</h3>
           <p className="text-gray-500 mb-6">{error}</p>
-          <button onClick={() => window.location.reload()} className="w-full py-3 bg-gray-900 text-white rounded-xl font-bold">
+          <button onClick={() => (window.reloadPage || (() => window.location.reload()))()} className="w-full py-3 bg-gray-900 text-white rounded-xl font-bold">
             Coba Lagi
           </button>
         </div>
+      </div>
+    );
+  }
+
+  // Tampilkan loading saat fetch pertanyaan
+  if (loading || !totalQ) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+        <Loader2 size={48} className="animate-spin text-emerald-600 mb-4" />
+        <p className="text-gray-500 font-medium animate-pulse">Menyiapkan pertanyaan...</p>
       </div>
     );
   }

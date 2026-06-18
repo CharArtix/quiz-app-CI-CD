@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,41 +95,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from "axios";
 import { TOTAL_QUESTIONS } from "../utils/constants";
 &nbsp;
 // API endpoint Open Trivia Database
-const API_URL = <span class="cstat-no" title="statement not covered" >"https://opentdb.com/api.php";</span>
+const API_URL = "https://opentdb.com/api.php";
 &nbsp;
 // Fetch pertanyaan dari API eksternal
-export const getQuestions = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
+export const getQuestions = async () =&gt; {
+  try {
     // Request ke OpenTDB dengan parameter
-    const response = <span class="cstat-no" title="statement not covered" >await axios.get(API_URL, {</span>
+    const response = await axios.get(API_URL, {
       params: {
         amount: TOTAL_QUESTIONS,  // Jumlah soal
         type: "multiple",          // Tipe pilihan ganda
@@ -137,15 +137,15 @@ export const getQuestions = <span class="cstat-no" title="statement not covered"
     });
 &nbsp;
     // Validasi response (0 = berhasil)
-<span class="cstat-no" title="statement not covered" >    if (response.data.response_code !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error("Gagal mengambil soal dari server (API Limit/Error).");</span>
+    if (response.data.response_code !== 0) {
+      throw new Error("Gagal mengambil soal dari server (API Limit/Error).");
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return response.data.results;</span>
+    return response.data.results;
   } catch (error) {
     // Log error dan lempar ke component
-<span class="cstat-no" title="statement not covered" >    console.error("API Service Error:", error);</span>
-<span class="cstat-no" title="statement not covered" >    throw error;</span>
+    console.error("API Service Error:", error);
+    throw error;
   }
 };</pre></td></tr></table></pre>
 
@@ -154,7 +154,7 @@ export const getQuestions = <span class="cstat-no" title="statement not covered"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T09:49:54.882Z
+                at 2026-06-18T10:25:52.783Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

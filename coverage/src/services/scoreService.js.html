@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -87,15 +87,15 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,21 +103,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from 'axios'
 &nbsp;
-const API_URL = <span class="cstat-no" title="statement not covered" >import.meta.env.VITE_API_URL || 'http://localhost:3000'</span>
+const API_URL = import.meta.env.VITE_API_URL || <span class="branch-1 cbranch-no" title="branch not covered" >'http://localhost:3000'</span>
 &nbsp;
 /**
  * Submit skor ke backend setelah kuis selesai
  * @param {{ playerId, playerName, playerPicture, score, total, percentage }} scoreData
  */
-export const submitScore = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (scoreData) =&gt; {</span>
-  const response = <span class="cstat-no" title="statement not covered" >await axios.post(`${API_URL}/api/scores`, scoreData)</span>
-<span class="cstat-no" title="statement not covered" >  return response.data</span>
+export const submitScore = async (scoreData) =&gt; {
+  const response = await axios.post(`${API_URL}/api/scores`, scoreData)
+  return response.data
 }
 &nbsp;
 /**
@@ -125,9 +125,9 @@ export const submitScore = <span class="cstat-no" title="statement not covered" 
  * @param {number} limit
  * @returns {Promise&lt;Array&gt;}
  */
-export const getScoreboard = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (limit = <span class="branch-0 cbranch-no" title="branch not covered" >20)</span> =&gt; {</span>
-  const response = <span class="cstat-no" title="statement not covered" >await axios.get(`${API_URL}/api/scores`, { params: { limit } })</span>
-<span class="cstat-no" title="statement not covered" >  return response.data.scores</span>
+export const getScoreboard = async (limit = 20) =&gt; {
+  const response = await axios.get(`${API_URL}/api/scores`, { params: { limit } })
+  return response.data.scores
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -136,7 +136,7 @@ export const getScoreboard = <span class="cstat-no" title="statement not covered
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-18T09:49:54.882Z
+                at 2026-06-18T10:25:52.783Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
