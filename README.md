@@ -68,10 +68,10 @@ Sebelum menjalankan aplikasi, Anda wajib membuat file `.env` di root direktori u
 2. Buka file `.env` dan sesuaikan nilainya:
    ```ini
    # Client ID Google OAuth Anda untuk autentikasi login
-   VITE_GOOGLE_CLIENT_ID=1032097689770-gmu91bbb2l1ddv3g1qjtia69pfvorv2g.apps.googleusercontent.com
+   VITE_GOOGLE_CLIENT_ID=Token_anda
 
    # URL API backend Anda yang sudah dideploy di Azure
-   VITE_API_URL=https://quiz-app-backend-bzf9ajbvb8hghad0.malaysiawest-01.azurewebsites.net
+   VITE_API_URL=URL_Backend
    ```
 
 ---
