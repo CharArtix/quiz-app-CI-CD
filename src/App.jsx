@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Quiz from './pages/Quiz';
 import Result from './pages/Result';
+import QuizReview from './pages/QuizReview';
 import Profile from './pages/Profile';
 import Scoreboard from './pages/Scoreboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -26,6 +27,9 @@ function App() {
           } />
           <Route path="/scoreboard" element={
             <ProtectedRoute><Scoreboard /></ProtectedRoute>
+          } />
+          <Route path="/review" element={
+            <ProtectedRoute><QuizReview /></ProtectedRoute>
           } />
 
           {/* Redirect ke login jika rute tidak ada */}

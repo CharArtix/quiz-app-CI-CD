@@ -1,5 +1,7 @@
 module.exports = {
   testEnvironment: 'jest-environment-jsdom',
+  // Inject import.meta.env sebelum test berjalan
+  setupFiles: ['<rootDir>/src/__tests__/setupEnv.cjs'],
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.js'],
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
@@ -12,4 +14,23 @@ module.exports = {
     '**/__tests__/**/*.test.(js|jsx)',
     '**/?(*.)+(spec|test).(js|jsx)'
   ],
+
+  // --- Coverage Configuration ---
+  collectCoverage: false, // aktif hanya saat --coverage flag
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx}',
+    '!src/main.jsx',           // entry point, tidak perlu di-cover
+    '!src/**/__tests__/**',    // exclude folder test itu sendiri
+    '!src/**/__mocks__/**',    // exclude mock files
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 30,
+      functions: 45,
+      lines: 35,
+      statements: 35,
+    },
+  },
 };
