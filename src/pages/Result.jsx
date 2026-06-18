@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   Share2,
   Check,
+  BookOpen,
 } from "lucide-react";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
@@ -185,6 +186,17 @@ export default function Result() {
               >
                 <Trophy size={20} />
                 <span>Scoreboard</span>
+              </Link>
+            </div>
+
+            {/* Tombol Review Quiz */}
+            <div className="mt-3">
+              <Link
+                to="/review"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-indigo-200 bg-indigo-50 py-4 px-6 font-bold text-indigo-700 transition-all hover:bg-indigo-100 hover:border-indigo-300 hover:-translate-y-0.5 active:scale-[0.98] shadow-lg shadow-indigo-100"
+              >
+                <BookOpen size={20} />
+                <span>Lihat Review Jawaban</span>
               </Link>
             </div>
 
