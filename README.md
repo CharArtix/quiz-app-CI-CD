@@ -31,7 +31,7 @@ Aplikasi kuis interaktif berbasis **React 19** dan **Vite**, dikembangkan sebaga
 ### 1. Clone Repository
 Langkah pertama adalah menduplikasi repositori ini ke komputer lokal Anda:
 ```bash
-git clone https://github.com/firmansyahadip25/quiz-app-frontend.git
+git clone https://github.com/CharArtix/quiz-app-CI-CD.git
 cd quiz-app-frontend
 ```
 
@@ -44,11 +44,11 @@ Jika Anda ingin menyambungkan folder lokal ini ke repositori Git Anda sendiri (m
   ```
 - **Mengubah alamat remote repository (jika sudah ada):**
   ```bash
-  git remote set-url origin https://github.com/firmansyahadip25/quiz-app-frontend.git
+  git remote set-url origin https://github.com/CharArtix/quiz-app-CI-CD.git
   ```
 - **Menambahkan remote repository baru (jika belum ada `origin`):**
   ```bash
-  git remote add origin https://github.com/firmansyahadip25/quiz-app-frontend.git
+  git remote add origin https://github.com/CharArtix/quiz-app-CI-CD.git
   ```
 - **Lakukan push pertama kali ke branch utama:**
   ```bash
