@@ -132,4 +132,39 @@ describe('Profile Page', () => {
     });
     expect(global.fetch).not.toHaveBeenCalled();
   });
+
+  it('harus merender tombol Review jika ada data review di localStorage dan menavigasi saat diklik', async () => {
+    const mockHistory = [
+      { percentage: 100, score: 10, total: 10, playedAt: '2026-06-18T10:00:00Z' },
+    ];
+    global.fetch.mockResolvedValue({
+      json: async () => ({ history: mockHistory }),
+    });
+
+    const mockReviews = {
+      '2026-06-18T10:00:00Z': {
+        score: 10,
+        questions: [{ question: 'Q1' }],
+        answers: [{ question: 'Q1', isCorrect: true }]
+      }
+    };
+    localStorage.setItem('quizReviews', JSON.stringify(mockReviews));
+
+    renderProfile();
+
+    await waitFor(() => {
+      const reviewBtn = screen.getByRole('button', { name: /Review/i });
+      expect(reviewBtn).toBeInTheDocument();
+      
+      fireEvent.click(reviewBtn);
+      expect(mockNavigate).toHaveBeenCalledWith('/review', {
+        state: {
+          reviewData: mockReviews['2026-06-18T10:00:00Z'],
+          fromProfile: true
+        }
+      });
+    });
+
+    localStorage.removeItem('quizReviews');
+  });
 });

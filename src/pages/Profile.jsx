@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import {
   Trophy, RefreshCw, Target, TrendingUp, Calendar,
-  CheckCircle2, XCircle, Mail, User, Play, Sparkles, Crown, Gamepad2, ArrowRight
+  CheckCircle2, XCircle, Mail, User, Play, Sparkles, Crown, Gamepad2, ArrowRight, BookOpen
 } from 'lucide-react'
 
 export default function Profile() {
@@ -42,6 +42,33 @@ export default function Profile() {
   }, [user])
 
   useDocumentTitle(`Profil ${user?.name || ''} | DOT Quiz`)
+
+  // Fungsi untuk mencari review kuis di localStorage berdasarkan timestamp
+  const findReviewForHistoryItem = (h) => {
+    const reviews = JSON.parse(localStorage.getItem('quizReviews') || '{}');
+    // 1. Coba cari yang eksak
+    if (reviews[h.playedAt]) {
+      return reviews[h.playedAt];
+    }
+    // 2. Jika tidak ada yang eksak, cari yang paling dekat (toleransi 10 detik)
+    const playedTime = new Date(h.playedAt).getTime();
+    let bestKey = null;
+    let minDiff = 10000; // toleransi 10 detik dalam milidetik
+    
+    for (const key of Object.keys(reviews)) {
+      const diff = Math.abs(new Date(key).getTime() - playedTime);
+      if (diff < minDiff) {
+        minDiff = diff;
+        bestKey = key;
+      }
+    }
+    
+    if (bestKey && minDiff <= 10000) {
+      return reviews[bestKey];
+    }
+    
+    return null;
+  };
 
   // Hitung statistik
   const totalGames = history.length
@@ -244,6 +271,7 @@ export default function Profile() {
                     <th className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-gray-400">Detail Jawaban</th>
                     <th className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-gray-400">Predikat</th>
                     <th className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-gray-400">Waktu Bermain</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-gray-400">Review</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -277,6 +305,22 @@ export default function Profile() {
                             day: 'numeric', month: 'short', year: 'numeric',
                             hour: '2-digit', minute: '2-digit'
                           })}
+                        </td>
+                        <td className="px-6 py-4">
+                          {(() => {
+                            const review = findReviewForHistoryItem(h);
+                            return review ? (
+                              <button
+                                onClick={() => navigate('/review', { state: { reviewData: review, fromProfile: true } })}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700 hover:bg-indigo-100 hover:border-indigo-300 transition-all cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0"
+                              >
+                                <BookOpen size={12} />
+                                <span>Review</span>
+                              </button>
+                            ) : (
+                              <span className="text-xs text-gray-400 italic">Tidak tersedia</span>
+                            );
+                          })()}
                         </td>
                       </tr>
                     )

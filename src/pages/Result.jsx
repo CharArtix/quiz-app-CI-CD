@@ -57,8 +57,10 @@ export default function Result() {
       score: correctAnswers,
       total: totalQuestions,
       percentage: scorePercentage,
+      answers: quizState.answers,
+      questions: quizState.questions,
     });
-  }, [quizState.isFinished, user, correctAnswers, totalQuestions, scorePercentage, saveScore]);
+  }, [quizState.isFinished, quizState.answers, quizState.questions, user, correctAnswers, totalQuestions, scorePercentage, saveScore]);
 
   // Tentukan warna, icon, dan teks berdasarkan skor
   const getResultUI = () => {

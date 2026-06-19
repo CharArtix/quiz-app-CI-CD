@@ -199,14 +199,28 @@ export const QuizProvider = ({ children }) => {
 
   // Simpan skor ke backend + riwayat lokal
   const saveScore = useCallback(async (scoreData) => {
+    const { answers, questions, ...backendScoreData } = scoreData;
+    const playedAt = new Date().toISOString();
+
     // Simpan ke localStorage history
     const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-    history.unshift({ ...scoreData, playedAt: new Date().toISOString() });
+    history.unshift({ ...scoreData, playedAt });
     localStorage.setItem('quizHistory', JSON.stringify(history.slice(0, 50))); // max 50
+
+    // Simpan ke reviews cache di localStorage
+    const reviews = JSON.parse(localStorage.getItem('quizReviews') || '{}');
+    reviews[playedAt] = { answers, questions, score: scoreData.score };
+    // Batasi ukuran reviews cache (maksimal 50)
+    const reviewKeys = Object.keys(reviews).sort().reverse();
+    if (reviewKeys.length > 50) {
+      const keysToDelete = reviewKeys.slice(50);
+      keysToDelete.forEach(k => delete reviews[k]);
+    }
+    localStorage.setItem('quizReviews', JSON.stringify(reviews));
 
     // Kirim ke backend (tidak blokir jika gagal)
     try {
-      await submitScore(scoreData);
+      await submitScore({ ...backendScoreData, playedAt });
     } catch (err) {
       console.warn('Gagal submit skor ke backend:', err.message);
     }

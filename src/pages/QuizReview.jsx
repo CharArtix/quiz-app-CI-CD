@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useQuiz } from "../context/QuizContext";
 import Navbar from "../components/Navbar";
 import {
@@ -130,12 +130,19 @@ function ReviewCard({ item, index, isExpanded, onToggle }) {
 export default function QuizReview() {
   const { quizState, startQuiz } = useQuiz();
   const navigate = useNavigate();
+  const location = useLocation();
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [filter, setFilter] = useState("all"); // "all" | "correct" | "wrong"
 
   useDocumentTitle("Review Quiz | DOT Quiz");
 
-  const { answers, score, questions } = quizState;
+  const reviewData = location.state?.reviewData;
+  const fromProfile = location.state?.fromProfile;
+
+  const answers = reviewData ? reviewData.answers : quizState.answers;
+  const score = reviewData ? reviewData.score : quizState.score;
+  const questions = reviewData ? reviewData.questions : quizState.questions;
+
   const totalQ = questions.length;
   const totalAnswered = answers.length;
   const wrong = totalAnswered - score;
@@ -161,7 +168,7 @@ export default function QuizReview() {
   };
 
   // Redirect jika quiz belum selesai
-  if (!quizState.isFinished && answers.length === 0) {
+  if (!reviewData && !quizState.isFinished && answers.length === 0) {
     navigate("/result");
     return null;
   }
@@ -174,14 +181,14 @@ export default function QuizReview() {
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <button
-            onClick={() => navigate("/result")}
+            onClick={() => navigate(fromProfile ? "/profile" : "/result")}
             className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors mb-6 group"
           >
             <ArrowLeft
               size={16}
               className="transition-transform group-hover:-translate-x-1"
             />
-            Kembali ke Hasil
+            {fromProfile ? "Kembali ke Profil" : "Kembali ke Hasil"}
           </button>
 
           <div className="bg-white rounded-3xl shadow-xl ring-1 ring-black/5 p-6 md:p-8 mb-6">
